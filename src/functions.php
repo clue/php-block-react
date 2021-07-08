@@ -117,15 +117,16 @@ function await(PromiseInterface $promise, LoopInterface $loop, $timeout = null)
     }
 
     if ($rejected) {
-        if (!$exception instanceof \Exception) {
-            $exception = new \UnexpectedValueException(
-                'Promise rejected with unexpected value of type ' . (is_object($exception) ? get_class($exception) : gettype($exception)),
-                0,
-                $exception instanceof \Throwable ? $exception : null
-            );
+        if ($exception instanceof \Throwable || $exception instanceof \Exception) {
+            throw $exception;
         }
 
-        throw $exception;
+        throw new \UnexpectedValueException(
+            'Promise rejected with unexpected value of type '
+                . (is_object($exception)
+                ? get_class($exception)
+                : gettype($exception))
+        );
     }
 
     return $resolved;

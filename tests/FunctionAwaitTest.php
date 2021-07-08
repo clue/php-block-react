@@ -35,17 +35,15 @@ class FunctionAwaitTest extends TestCase
     /**
      * @requires PHP 7
      */
-    public function testAwaitOneRejectedWithPhp7ErrorWillWrapInUnexpectedValueExceptionWithPrevious()
+    public function testAwaitOneRejectedWithPhp7ErrorWillThrowThatVerySameError()
     {
         $promise = Promise\reject(new \Error('Test'));
 
         try {
             Block\await($promise, $this->loop);
             $this->fail();
-        } catch (\UnexpectedValueException $e) {
-            $this->assertEquals('Promise rejected with unexpected value of type Error', $e->getMessage());
-            $this->assertInstanceOf('Throwable', $e->getPrevious());
-            $this->assertEquals('Test', $e->getPrevious()->getMessage());
+        } catch (\Error $e) {
+            $this->assertEquals('Test', $e->getMessage());
         }
     }
 
