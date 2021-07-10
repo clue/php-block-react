@@ -283,7 +283,7 @@ function awaitAll(array $promises, LoopInterface $loop, $timeout = null)
 function _cancelAllPromises(array $promises)
 {
     foreach ($promises as $promise) {
-        if ($promise instanceof CancellablePromiseInterface) {
+        if ($promise instanceof CancellablePromiseInterface || (! \interface_exists('React\\Promise\\CancellablePromiseInterface') && \method_exists($promise, 'cancel'))) {
             $promise->cancel();
         }
     }

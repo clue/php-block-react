@@ -18,6 +18,7 @@ class FunctionAwaitTest extends TestCase
 
     public function testAwaitOneRejectedWithFalseWillWrapInUnexpectedValueException()
     {
+        $this->skipForPromise3('Promises must reject with an exception, so this case cannot happen.');
         $promise = Promise\reject(false);
 
         $this->setExpectedException('UnexpectedValueException', 'Promise rejected with unexpected value of type bool');
@@ -26,6 +27,7 @@ class FunctionAwaitTest extends TestCase
 
     public function testAwaitOneRejectedWithNullWillWrapInUnexpectedValueException()
     {
+        $this->skipForPromise3('Promises must reject with an exception, so this case cannot happen.');
         $promise = Promise\reject(null);
 
         $this->setExpectedException('UnexpectedValueException', 'Promise rejected with unexpected value of type NULL');
@@ -153,6 +155,7 @@ class FunctionAwaitTest extends TestCase
 
     public function testAwaitNullValueShouldNotCreateAnyGarbageReferences()
     {
+        $this->skipForPromise3('Promises must reject with an exception, so this case cannot happen.');
         if (class_exists('React\Promise\When') && PHP_VERSION_ID >= 50400) {
             $this->markTestSkipped('Not supported on legacy Promise v1 API with PHP 5.4+');
         }

@@ -36,6 +36,8 @@ class FunctionAwaitAllTest extends TestCase
 
     public function testAwaitAllRejectedWithFalseWillWrapInUnexpectedValueException()
     {
+        $this->skipForPromise3('Promises must reject with an exception, so this case cannot happen.');
+
         $all = array(
             $this->createPromiseResolved(1),
             Promise\reject(false)

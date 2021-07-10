@@ -18,7 +18,7 @@ class FunctionAwaitAnyTest extends TestCase
     public function testAwaitAnyFirstResolved()
     {
         $all = array(
-            $this->createPromiseRejected(1),
+            $this->createPromiseRejected(new \Exception('1')),
             $this->createPromiseResolved(2, 0.01),
             $this->createPromiseResolved(3, 0.02)
         );
@@ -33,7 +33,7 @@ class FunctionAwaitAnyTest extends TestCase
         $d3 = new Deferred();
 
         $this->loop->addTimer(0.01, function() use ($d1, $d2, $d3) {
-            $d1->reject(1);
+            $d1->reject(new \Exception('1'));
             $d2->resolve(2);
             $d3->resolve(3);
         });
@@ -50,8 +50,8 @@ class FunctionAwaitAnyTest extends TestCase
     public function testAwaitAnyAllRejected()
     {
         $all = array(
-            $this->createPromiseRejected(1),
-            $this->createPromiseRejected(2)
+            $this->createPromiseRejected(new \Exception('1')),
+            $this->createPromiseRejected(new \Exception('2'))
         );
 
         $this->setExpectedException('UnderflowException');
